@@ -17,34 +17,35 @@
 //print(compare)
 
 using System;
+using System.Collections.Generic;
 
 namespace TruthTable
 {
     public abstract class ThreeItemTruthRow
     {
-        protected ThreeItemTruthRow(bool a, bool b, bool c)
+        protected ThreeItemTruthRow(bool p, bool q, bool r)
         {
-            A = a; B = b; C = c;
+            P = p; Q = q; R = r;
         }
 
-        public bool A { get; protected set; }
-        public bool B { get; protected set; }
-        public bool C { get; protected set; }
+        public bool P { get; protected set; }
+        public bool Q { get; protected set; }
+        public bool R { get; protected set; }
 
         public abstract bool GetTruthValue();
     }
 
     public class MyCustomThreeItemTruthRow : ThreeItemTruthRow
     {
-        public MyCustomThreeItemTruthRow(bool a, bool b, bool c)
-            : base(a, b, c)
+        public MyCustomThreeItemTruthRow(bool p, bool q, bool r)
+            : base(p, q, r)
         {
         }
 
         public override bool GetTruthValue()
         {
             // My custom logic
-            return (!A && B && C) || (A && !B && C) || (A && B && !C) || (A && B && C);
+            return (!P && Q && R) || (P && !Q && R) || (P && Q && !R) || (P && Q && R);
         }
     }
 
@@ -52,39 +53,56 @@ namespace TruthTable
     {
         public static void Main(string[] args)
         {
-            // 
-            var myTruthTable = GenerateTruthTable().ToList();
+            // Print Header P Q R
+            Console.WriteLine(" P   |  Q  |  R");
+            var myTruthTable = GenerateTruthTable();//.ToList();
             //Print only true values
-            foreach (var item in myTruthTable)
-            {
-                if (item.GetTruthValue())
-                    Console.WriteLine("{0}, {1}, {2}", item.A, item.B, item.C);
-            }
+            //foreach (var item in myTruthTable)
+            //{
+            //    if (item.GetTruthValue())
+            //        Console.WriteLine("{0}, {1}, {2}", item.P, item.Q, item.R);
+            //}
 
             ////Print all values
             //foreach (var itemTruthRow in myTruthTable)
             //{
-            //    Console.WriteLine("{0}, {1}, {2}", itemTruthRow.A, itemTruthRow.B, itemTruthRow.C);
+            //    Console.WriteLine("{0}, {1}, {2}", itemTruthRow.P, itemTruthRow.Q, itemTruthRow.R);
             //}
+            //Print P and Q values
+            foreach (var itemTruthRow in myTruthTable)
+            {
+                Console.WriteLine("{0}, {1}", itemTruthRow.P, itemTruthRow.Q);
+            }
             ////Print only false values
             //foreach (var item in myTruthTable)
             //{
             //    if (!item.GetTruthValue())
-            //        Console.WriteLine("{0}, {1}, {2}", item.A, item.B, item.C);
+            //        Console.WriteLine("{0}, {1}, {2}", item.P, item.Q, item.R);
             //}
+
+            // Evaluate P OR Q and print values.
+            Console.WriteLine("\n P OR Q ");
+            foreach (var itemTruthRow in myTruthTable)
+            {
+                if (itemTruthRow.P || itemTruthRow.Q)    
+                    Console.WriteLine(false);
+                else
+                    Console.WriteLine(true);
+
+            }
             Console.ReadLine();
         }
 
         // 
         public static IEnumerable<MyCustomThreeItemTruthRow> GenerateTruthTable()
         {
-            for (var a = 0; a < 2; a++)
-                for (var b = 0; b < 2; b++)
-                    for (var c = 0; c < 2; c++)
+            for (var p = 0; p < 2; p++)
+                for (var q = 0; q < 2; q++)
+                    for (var r = 0; r < 2; r++)
                         yield return new MyCustomThreeItemTruthRow(
-                            Convert.ToBoolean(a),
-                            Convert.ToBoolean(b),
-                            Convert.ToBoolean(c));
+                            Convert.ToBoolean(p),
+                            Convert.ToBoolean(q),
+                            Convert.ToBoolean(r));
         }
     }
 }
