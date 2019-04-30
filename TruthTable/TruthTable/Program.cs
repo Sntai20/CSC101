@@ -85,9 +85,9 @@ namespace TruthTable
             foreach (var itemTruthRow in myTruthTable)
             {
                 if (itemTruthRow.P || itemTruthRow.Q)    
-                    Console.WriteLine(false);
-                else
                     Console.WriteLine(true);
+                else
+                    Console.WriteLine(false);
 
             }
             Console.ReadLine();
